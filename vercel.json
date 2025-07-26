@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "web-dashboard/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/web-dashboard/$1"
+    }
+  ],
+  "functions": {
+    "api/agent-factory.js": {
+      "maxDuration": 30
+    },
+    "api/sentiment-agent.js": {
+      "maxDuration": 60
+    },
+    "api/recommendation-agent.js": {
+      "maxDuration": 45
+    },
+    "api/performance-monitor.js": {
+      "maxDuration": 30
+    }
+  },
+  "env": {
+    "SUPABASE_URL": "@supabase-url",
+    "SUPABASE_ANON_KEY": "@supabase-anon-key",
+    "SUPABASE_SERVICE_ROLE_KEY": "@supabase-service-role",
+    "HUGGINGFACE_API_KEY": "@huggingface-api-key",
+    "NODE_ENV": "production"
+  }
+}
